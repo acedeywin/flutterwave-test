@@ -14,7 +14,13 @@ useRoute.get("/", (req, res) => {
   res.send({
     message: "My Rule-Validation API",
     status: "success",
-    data: profile,
+    data: {
+      name: "Stephen Okpalaononuju",
+      github: "@acedeywin",
+      email: "stephenokpala@gmail.com",
+      mobile: "08065467341",
+      twitter: "@acedeywinn",
+    },
   })
 })
 
