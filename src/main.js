@@ -1,19 +1,12 @@
 import express from "express"
 import bodyParser from "body-parser"
+import { profile } from "../data.js"
 
 const useRoute = express.Router()
 useRoute.use(bodyParser.json())
 
 //the base route
 useRoute.get("/", (req, res) => {
-  const profile = {
-    name: "Stephen Okpalaononuju",
-    github: "@acedeywin",
-    email: "stephenokpala@gmail.com",
-    mobile: "08065467341",
-    twitter: "@acedeywinn",
-  }
-
   res.statusCode = 200
   res.setHeader("Content-Type", "application/jsn")
   res.json({
