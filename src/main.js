@@ -1,6 +1,8 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { profile } from "../data.js"
+import { createRequire } from "module"
+const require = createRequire(import.meta.url)
+const profile = require("../data.json")
 
 const useRoute = express.Router()
 useRoute.use(bodyParser.json())
@@ -9,10 +11,20 @@ useRoute.use(bodyParser.json())
 useRoute.get("/", (req, res) => {
   res.statusCode = 200
   res.setHeader("Content-Type", "application/jsn")
-  res.json({
+  res.send({
     message: "My Rule-Validation API",
     status: "success",
     data: profile,
+  })
+})
+
+useRoute.get("/validate-rule", (req, res) => {
+  res.statusCode = 200
+  res.setHeader("Content-Type", "application/json")
+  res.send({
+    message: `This data is hardcoded. You'd have to do a POST request to test the result of the /validate-rule route.`,
+    status: "success",
+    data: "Working fine.",
   })
 })
 
@@ -71,12 +83,14 @@ useRoute.post("/validate-rule", (req, res, next) => {
   if (condition == "eq" && field !== condition_value) {
     validationError.push(`field ${fieldValue} failed validation.`)
   }
+
   if (condition == "neq" && field === condition_value) {
     validationError.push(`field ${fieldValue} failed validation.`)
   }
   if (condition === "gt" && field <= condition_value) {
     validationError.push(`field ${fieldValue} failed validation.`)
   }
+
   if (condition == "gte" && field < condition_value) {
     validationError.push(`field ${fieldValue} failed validation.`)
   }
@@ -103,7 +117,7 @@ useRoute.post("/validate-rule", (req, res, next) => {
     //console.log(dataKeys)
     res.statusCode = 200
     res.setHeader("Content-Type", "application/json")
-    res.json({
+    res.send({
       message: `field ${fieldValue} successfully validated.`,
       status: "success",
       data: {
