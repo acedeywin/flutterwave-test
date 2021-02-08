@@ -9,9 +9,7 @@ useRoute.use(bodyParser.json())
 
 //the base route
 useRoute.get("/", (req, res) => {
-  res.statusCode = 200
-  res.setHeader("Content-Type", "application/jsn")
-  res.send({
+  return res.status(200).send({
     message: "My Rule-Validation API",
     status: "success",
     data: profile,
@@ -19,9 +17,7 @@ useRoute.get("/", (req, res) => {
 })
 
 useRoute.get("/validate-rule", (req, res) => {
-  res.statusCode = 200
-  res.setHeader("Content-Type", "application/json")
-  res.send({
+  return res.status(200).send({
     message: `This data is hardcoded. You'd have to do a POST request to test the result of the /validate-rule route.`,
     status: "success",
     data: "Working fine.",
@@ -71,9 +67,7 @@ useRoute.post("/validate-rule", (req, res, next) => {
     errors.push(`dataToValidate should be a number or an object.`)
   }
   if (errors.length > 0) {
-    res.statusCode = 400
-    res.setHeader("Content-Type", "application/json")
-    res.json({
+    return res.status(401).json({
       message: errors[0],
       status: "error",
       data: null,
@@ -98,9 +92,7 @@ useRoute.post("/validate-rule", (req, res, next) => {
     validationError.push(`field ${fieldValue} failed validation.`)
   }
   if (validationError.length > 0) {
-    res.statusCode = 400
-    res.setHeader("Content-Type", "application/json")
-    res.json({
+    return res.status(400).json({
       message: validationError[0],
       status: "error",
       data: {
@@ -115,9 +107,7 @@ useRoute.post("/validate-rule", (req, res, next) => {
     })
   } else {
     //console.log(dataKeys)
-    res.statusCode = 200
-    res.setHeader("Content-Type", "application/json")
-    res.send({
+    return res.status(200).send({
       message: `field ${fieldValue} successfully validated.`,
       status: "success",
       data: {
